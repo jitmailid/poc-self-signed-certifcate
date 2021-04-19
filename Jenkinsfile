@@ -1,4 +1,4 @@
-//docker push ${IMAGE}:${VERSION}
+
 pipeline {
   environment {
     
