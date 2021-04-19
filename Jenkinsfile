@@ -28,10 +28,10 @@ pipeline {
            
         
         
-      } //stage
+      } //stages
     
    
   }
-}
+
 
    
