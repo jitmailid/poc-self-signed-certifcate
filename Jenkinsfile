@@ -1,37 +1,40 @@
-
+//docker push ${IMAGE}:${VERSION}
 pipeline {
   environment {
-    
-    CERTIFICATE_COMMON_NAME = "${params.CERTIFICATE_COMMON_NAME}"
-    CERTIFICATE_PATH = "${params.CERTIFICATE_PATH}"
-      
-      
+    /*registry = "gustavoapolinario/docker-test"
+    registryCredential = ‘dockerhub’ */
+      IMAGE = "my-image"
+      VERSION = '1.0'
+      VALIDATION_COMPLETE = false
+      CONTAINER_NAME= "test-helm-chart"
       
   }
   agent any
   stages { 
-   stage('Creating keystore') {
+   stage('Cloning Git') {
       steps {
-        git 'https://github.com/jitmailid/poc-self-signed-certifcate.git'
+        git 'https://github.com/jitmailid/ranjit-helmchart-testing.git'
       }
     }
-        stage('Generate a certificatee signing request') {
+        stage('Build docker image') {
              steps {
                 sh '''
-                
-                    keytool -genkey -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London"
+                    docker build -t ${IMAGE}:${VERSION} .
                     
                 '''
              }
        }
-      stage('Generate self-signed certificate'){
+      stage('Creation of Docker Container'){
           steps{
             
-           sh '''                 
-                  keytool -certreq -alias dummy -keystore dummy.jks -file dummy.csr -storepass 123123                 
+           sh '''
+                  
+                  docker run -d --name test-helm-chart  -v ${WORKSPACE}:/data  my-image:1.0  sleep infinity
+                  
                   
               ''' 
-                
+      
+            
            
           }
       }
@@ -40,12 +43,36 @@ pipeline {
        
        steps{
        
-         sh '''
-         
-         keytool -export -alias dummy -keystore dummy.jks -storepass 123123 -rfc -file dummy.cer -ext domains.ext
-         
-         '''
-
+         withDockerContainer(image: IMAGE+':'+VERSION, toolName: 'Default') {
+    // some block
+script {
+try { 
+            
+            //sh 'helm template ${WORKSPACE} | tee output.log'
+           sh 'helm version'
+           sh 'helm lint ${WORKSPACE} | tee output.log';
+          // sh 'helm template ${WORKSPACE} | tee output.log';
+          validateData = sh('! grep "ERROR" output.log')
+          if(validateData.toString().contains('ERROR'))
+ {
+       //sh'tee output.log';
+        //   exit 1
+  sh'echo hi' ;
+  autoCancelled = true
+      error('Aborting the build.')
+  
+          }//
+           } catch (e) {
+  if (autoCancelled) {
+    currentBuild.result = 'SUCCESS'
+    // return here instead of throwing error to keep the build "green"
+    return
+  }
+  // normal error handling
+  throw e
+}
+           
+         }
          }
                } 
            
@@ -56,3 +83,18 @@ pipeline {
    
   }
 }
+
+    © 2021 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Docs
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
