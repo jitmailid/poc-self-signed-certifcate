@@ -18,7 +18,7 @@ pipeline {
     }
         stage('Validating the p') {
              steps {
-    if (CERTIFICATE_COMMON_NAME == null) {
+    if(CERTIFICATE_COMMON_NAME == null) {
     error("Build failed because of CERTIFICATE_COMMON_NAME BLANK")
      }
                 sh '''
