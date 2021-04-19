@@ -12,7 +12,7 @@ pipeline {
   stages { 
    stage('Creating keystore') {
       steps {
-        git 'https://github.com/jitmailid/ranjit-helmchart-testing.git'
+        git 'https://github.com/jitmailid/poc-self-signed-certifcate.git'
       }
     }
         stage('Generate a certificatee signing request') {
