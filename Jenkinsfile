@@ -3,10 +3,10 @@ pipeline {
   environment {
     /*registry = "gustavoapolinario/docker-test"
     registryCredential = ‘dockerhub’ */
-      IMAGE = "my-image"
-      VERSION = '1.0'
-      VALIDATION_COMPLETE = false
-      CONTAINER_NAME= "test-helm-chart"
+      CERTIFICATE_COMMON_NAME = "${params.CERTIFICATE_COMMON_NAME}"
+      CERTIFICATE_PATH = "${params.CERTIFICATE_PATH}"
+      //VALIDATION_COMPLETE = false
+     // CONTAINER_NAME= "test-helm-chart"
       
   }
   agent any
@@ -16,8 +16,11 @@ pipeline {
         git 'https://github.com/jitmailid/poc-self-signed-certifcate.git'
       }
     }
-        stage('Build docker image') {
+        stage('Validating the p') {
              steps {
+    if (CERTIFICATE_COMMON_NAME == null) {
+    error("Build failed because of CERTIFICATE_COMMON_NAME BLANK")
+     }
                 sh '''
                     echo 'hello world'
                     
