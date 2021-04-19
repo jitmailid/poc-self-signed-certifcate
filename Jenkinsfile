@@ -13,68 +13,18 @@ pipeline {
   stages { 
    stage('Cloning Git') {
       steps {
-        git 'https://github.com/jitmailid/ranjit-helmchart-testing.git'
+        git 'https://github.com/jitmailid/poc-self-signed-certifcate.git'
       }
     }
         stage('Build docker image') {
              steps {
                 sh '''
-                    docker build -t ${IMAGE}:${VERSION} .
+                    echo 'hello world'
                     
                 '''
              }
        }
-      stage('Creation of Docker Container'){
-          steps{
-            
-           sh '''
-                  
-                  docker run -d --name test-helm-chart  -v ${WORKSPACE}:/data  my-image:1.0  sleep infinity
-                  
-                  
-              ''' 
-      
-            
-           
-          }
-      }
-   
-      stage('Generic validation of helm chart'){
-       
-       steps{
-       
-         withDockerContainer(image: IMAGE+':'+VERSION, toolName: 'Default') {
-    // some block
-script {
-try { 
-            
-            //sh 'helm template ${WORKSPACE} | tee output.log'
-           sh 'helm version'
-           sh 'helm lint ${WORKSPACE} | tee output.log';
-          // sh 'helm template ${WORKSPACE} | tee output.log';
-          validateData = sh('! grep "ERROR" output.log')
-          if(validateData.toString().contains('ERROR'))
- {
-       //sh'tee output.log';
-        //   exit 1
-  sh'echo hi' ;
-  autoCancelled = true
-      error('Aborting the build.')
-  
-          }//
-           } catch (e) {
-  if (autoCancelled) {
-    currentBuild.result = 'SUCCESS'
-    // return here instead of throwing error to keep the build "green"
-    return
-  }
-  // normal error handling
-  throw e
-}
-           
-         }
-         }
-               } 
+     
            
         
         
@@ -84,17 +34,4 @@ try {
   }
 }
 
-    © 2021 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Status
-    Docs
-
-    Contact GitHub
-    Pricing
-    API
-    Training
-    Blog
-    About
-
+   
