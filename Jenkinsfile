@@ -16,7 +16,7 @@ pipeline {
         git 'https://github.com/jitmailid/poc-self-signed-certifcate.git'
       }
     }
-        stage('Validating the parammeters') {
+        stage('Validating the parameters') {
              steps {
    
                  
