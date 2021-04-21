@@ -28,7 +28,19 @@ pipeline {
                 
              }
        }
-     
+    
+     stage('Creating ') {
+             steps {
+   
+                 
+                  sh 'echo hello world'
+                  sh "openssl req -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London""
+                  sh "echo ${params.CERTIFICATE_PATH}"
+                 // sh 'cd params.CERTIFICATE_PATH '
+                  sh  'pwd'
+                
+             }
+       }
            
         
         
