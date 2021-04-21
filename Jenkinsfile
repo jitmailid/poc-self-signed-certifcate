@@ -5,7 +5,7 @@ pipeline {
     registryCredential = ‘dockerhub’ */
      // CERTIFICATE_COMMON_NAME = "${params.CERTIFICATE_COMMON_NAME}"
      // CERTIFICATE_PATH = "${params.CERTIFICATE_PATH}"
-      //VALIDATION_COMPLETE = false
+      VALIDATION_COMPLETE = false
      // CONTAINER_NAME= "test-helm-chart"
       
   }
