@@ -20,8 +20,9 @@ pipeline {
              steps {
    
                  
-                  sh 'echo 'hello world'
-                  sh 'cd "$params.CERTIFICATE_COMMON_NAME" '
+                  sh 'echo hello world'
+                  sh 'echo $params.CERTIFICATE_COMMON_NAME'
+                  sh 'cd $params.CERTIFICATE_PATH '
                   sh  'pwd'
                 
              }
