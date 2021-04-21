@@ -38,6 +38,7 @@ pipeline {
                   sh 'echo Generate key and CSR for dem certificate'
                   sh "openssl req -new -nodes -newkey rsa:2048 -keyout ${params.CERTIFICATE_COMMON_NAME}.key -out ${params.CERTIFICATE_COMMON_NAME}.csr -subj /C=UK/ST=LONDON/L=LONDON/O=LONDON/CN=${params.CERTIFICATE_COMMON_NAME}"
                   sh 'echo Create certificate using csr and key generated in above steps'
+                  sh  'pwd'
                   sh "openssl x509 -req -sha256 -days 1024 -in ${params.CERTIFICATE_COMMON_NAME}.csr -CA rootca.pem -CAkey abc-demo.key -CAcreateserial -extfile domains.ext -out ${params.CERTIFICATE_COMMON_NAME}.crt"
                   sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
