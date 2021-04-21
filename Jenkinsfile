@@ -51,7 +51,7 @@ pipeline {
    
                  
                   sh 'echo Generate demo rootca key '
-                  sh "keytool -genkey -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname CN=dummy, O=London, L=London, S=London, C=UK, OU=London"
+                  sh "keytool -genkey -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London""
                   sh 'echo Generate key and CSR for dem certificate'
                   sh "keytool -certreq -alias dummy -keystore dummy.jks -file dummy.csr -storepass 123123"
                   sh 'echo Create certificate using csr and key generated in above steps'
