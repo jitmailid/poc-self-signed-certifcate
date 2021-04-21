@@ -34,7 +34,8 @@ pipeline {
    
                  
                   sh 'echo hello world'
-                  sh "openssl req -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London""
+                  sh "openssl req -X509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout rooca.key -out rootca.pem -subj /C=LONDON/CN=abc-demo-root-ca"
+                  sh "openssl req -new -nodes -newkey rsa:2048 -keyout abc-demo.key -out abc-demo.csr -subj /C=LONDON/ST=LONDON/L=LONDON/O=LONDON/CN=abc-demo"
                   sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
