@@ -50,14 +50,19 @@ pipeline {
              steps {
    
                  
-                  sh 'echo Generate demo rootca key '
-                  sh 'keytool -genkey -keyalg RSA -alias dummy -keystore dummy.jks -storepass 123123 -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London"'
-                  sh 'echo Generate key and CSR for dem certificate'
-                  sh "keytool -certreq -alias dummy -keystore dummy.jks -file dummy.csr -storepass 123123"
-                  sh 'echo Create certificate using csr and key generated in above steps'
-                  sh  'pwd'
-                  sh "keytool -export -alias dummy -keystore dummy.jks -storepass 123123 -rfc -file dummy.cer -ext domains.ext"
-                  sh "keytool -list -v -keystore dummy.jks"
+                  sh 'echo Creating keystore which contains a private key and a self-signed public key  '
+                  sh 'keytool -genkey -keyalg RSA -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -validity 1024 -keysize 2048 -dname "CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London"'
+                  sh 'echo Generate a certificate signing request (CSR) for above keystore'
+                  sh "keytool -certreq -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
+                  sh 'echo self-signed  X.509 certificate named as ${params.CERTIFICATE_COMMON_NAME}.cer'
+                //  sh  'pwd'
+                  sh "keytool -export -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"
+                  sh ' echo Check which certificate is in above Java keystore'
+                  sh "keytool -list -v -keystore ${params.CERTIFICATE_COMMON_NAME}.jks"
+               
+                 sh 'echo import key store '
+                 sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKC12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
+               
                   sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
