@@ -19,10 +19,11 @@ pipeline {
         stage('Validating the p') {
              steps {
    
-                sh '''
-                    echo 'hello world'
-                    
-                '''
+                 
+                  sh 'echo 'hello world'
+                  sh 'cd "$params.CERTIFICATE_COMMON_NAME" '
+                  sh  'pwd'
+                
              }
        }
      
