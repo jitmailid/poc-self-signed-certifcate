@@ -21,8 +21,8 @@ pipeline {
    
                  
                   sh 'echo hello world'
-                  sh 'print params.CERTIFICATE_COMMON_NAME'
-                  sh 'print params.CERTIFICATE_PATH'
+                  sh "echo ${params.CERTIFICATE_COMMON_NAME}"
+                  sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
                 
