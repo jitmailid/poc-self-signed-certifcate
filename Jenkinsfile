@@ -34,7 +34,7 @@ pipeline {
    
                  
                   sh 'echo Generate demo rootca key '
-                  sh "openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout rootca.key -out rootca.pem -subj /C=LONDON/CN=abc-demo-root-ca"
+                  sh "openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout rootca.key -out rootca.pem -subj /C=UK/CN=abc-demo-root-ca"
                   sh 'echo Generate key and CSR for dem certificate'
                   sh "openssl req -new -nodes -newkey rsa:2048 -keyout abc-demo.key -out abc-demo.csr -subj /C=UK/ST=LONDON/L=LONDON/O=LONDON/CN=abc-demo"
                   sh 'echo Create certificate using csr and key generated in above steps'
