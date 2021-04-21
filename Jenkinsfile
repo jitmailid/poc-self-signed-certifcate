@@ -54,14 +54,16 @@ pipeline {
                   sh "keytool -genkey -keyalg RSA -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'"
                   sh 'echo Generate a certificate signing request CSR for above keystore'
                   sh "keytool -certreq -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
-                  sh 'echo self-signed  X.509 certificate named as ${params.CERTIFICATE_COMMON_NAME}.cer'
+                  sh 'echo self-signed  X.509 certificate named'
                 //  sh  'pwd'
                   sh "keytool -export -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"
+               
                   sh ' echo Check which certificate is in above Java keystore'
                   sh "keytool -list -v -keystore ${params.CERTIFICATE_COMMON_NAME}.jks"
                
                  sh 'echo import key store '
                  sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKC12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
+                 sh 'echo extract private key '
                  sh 'openssl pkc12 -in ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -nodes -nocerts -out ${params.CERTIFICATE_COMMON_NAME}-key.pem'
                
                   sh "echo ${params.CERTIFICATE_PATH}"
