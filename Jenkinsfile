@@ -50,8 +50,8 @@ pipeline {
              steps {
    
                  
-                  sh 'echo Creating keystore which contains a private key and a self-signed public key  '
-                  sh 'keytool -genkey -keyalg RSA -alias dummy -keystore "${params.CERTIFICATE_COMMON_NAME}".jks -storepass 123123 -validity 1024 -keysize 2048 -dname "CN=dummy, O=London, L=London, S=London, C=UK, OU=London"'
+                  sh 'echo Creating keystore which contains a private key and a self-signed public key .. '
+                  sh "keytool -genkey -keyalg RSA -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'"
                   sh 'echo Generate a certificate signing request (CSR) for above keystore'
                   sh "keytool -certreq -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
                   sh 'echo self-signed  X.509 certificate named as ${params.CERTIFICATE_COMMON_NAME}.cer'
