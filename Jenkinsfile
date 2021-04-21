@@ -3,8 +3,8 @@ pipeline {
   environment {
     /*registry = "gustavoapolinario/docker-test"
     registryCredential = ‘dockerhub’ */
-      CERTIFICATE_COMMON_NAME = "${params.CERTIFICATE_COMMON_NAME}"
-      CERTIFICATE_PATH = "${params.CERTIFICATE_PATH}"
+     // CERTIFICATE_COMMON_NAME = "${params.CERTIFICATE_COMMON_NAME}"
+     // CERTIFICATE_PATH = "${params.CERTIFICATE_PATH}"
       //VALIDATION_COMPLETE = false
      // CONTAINER_NAME= "test-helm-chart"
       
@@ -21,8 +21,9 @@ pipeline {
    
                  
                   sh 'echo hello world'
-                  sh 'echo $params.CERTIFICATE_COMMON_NAME'
-                  sh 'cd $params.CERTIFICATE_PATH '
+                  sh 'print params.CERTIFICATE_COMMON_NAME'
+                  sh 'print params.CERTIFICATE_PATH'
+                 // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
                 
              }
