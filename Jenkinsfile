@@ -39,7 +39,7 @@ pipeline {
                   sh "openssl req -new -nodes -newkey rsa:2048 -keyout abc_demo.key -out ${params.CERTIFICATE_COMMON_NAME}.csr -subj /C=UK/ST=LONDON/L=LONDON/O=LONDON/CN=${params.CERTIFICATE_COMMON_NAME}"
                   sh 'echo Create certificate using csr and key generated in above steps'
                   sh  'pwd'
-                  sh "openssl x509 -req -sha256 -days 1024 -in ${params.CERTIFICATE_COMMON_NAME}.csr -CA {params.CERTIFICATE_COMMON_NAME}.pem -CAkey ${params.CERTIFICATE_COMMON_NAME}.key -CAcreateserial -extfile domains.ext -out ${params.CERTIFICATE_COMMON_NAME}.crt"
+                  sh "openssl x509 -req -sha256 -days 1024 -in ${params.CERTIFICATE_COMMON_NAME}.csr -CA ${params.CERTIFICATE_COMMON_NAME}.pem -CAkey ${params.CERTIFICATE_COMMON_NAME}.key -CAcreateserial -extfile domains.ext -out ${params.CERTIFICATE_COMMON_NAME}.crt"
                   sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
