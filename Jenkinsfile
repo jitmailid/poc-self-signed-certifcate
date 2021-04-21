@@ -29,7 +29,7 @@ pipeline {
              }
        }
     
-     stage('Creating self signed certificate') {
+     /*stage('Creating self signed certificate using openssl') {
              steps {
    
                  
@@ -40,6 +40,24 @@ pipeline {
                   sh 'echo Create certificate using csr and key generated in above steps'
                   sh  'pwd'
                   sh "openssl x509 -req -sha256 -days 1024 -in ${params.CERTIFICATE_COMMON_NAME}.csr -CA ${params.CERTIFICATE_COMMON_NAME}.pem -CAkey ${params.CERTIFICATE_COMMON_NAME}.key -CAcreateserial -extfile domains.ext -out ${params.CERTIFICATE_COMMON_NAME}.crt"
+                  sh "echo ${params.CERTIFICATE_PATH}"
+                 // sh 'cd params.CERTIFICATE_PATH '
+                  sh  'pwd'
+                
+             }
+       }*/
+    stage('Creating self signed certificate') {
+             steps {
+   
+                 
+                  sh 'echo Generate demo rootca key '
+                  sh "keytool -genkey -keyalg RSA -alias dummy -keystore dummy.jks -validity 1024 -keysize 2048 -dname CN=dummy, O=London, L=London, S=London, C=UK, OU=London"
+                  sh 'echo Generate key and CSR for dem certificate'
+                  sh "keytool -certreq -alias dummy -keystore dummy.jks -file dummy.csr -storepass 123123"
+                  sh 'echo Create certificate using csr and key generated in above steps'
+                  sh  'pwd'
+                  sh "keytool -export -alias dummy -keystore dummy.jks -storepass 123123 -rfc -file dummy.cer -ext domains.ext"
+                  sh "keytool -list -v -keystore dummy.jks"
                   sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
