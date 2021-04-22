@@ -56,19 +56,20 @@ pipeline {
                   sh "keytool -certreq -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
                   sh 'echo self-signed  X.509 certificate named'
                 //  sh  'pwd'
-                  sh "keytool -export -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"
-               
-                  sh ' echo Check which certificate is in above Java keystore'
-                  sh "keytool -list -v -keystore ${params.CERTIFICATE_COMMON_NAME}.jks"
+                  sh "keytool -export -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"               
                
                  sh 'echo import key store '
-                 sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKC12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
+                 sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKCS12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
                  sh 'echo extract private key '
                  sh 'openssl pkc12 -in ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -nodes -nocerts -out ${params.CERTIFICATE_COMMON_NAME}-key.pem'
+                 sh ' echo Check which certificate is in above Java keystore'
+                 sh "keytool -list -v -keystore ${params.CERTIFICATE_COMMON_NAME}.jks"
                
-                  sh "echo ${params.CERTIFICATE_PATH}"
+                 sh "echo ${params.CERTIFICATE_PATH}"
                  // sh 'cd params.CERTIFICATE_PATH '
                   sh  'pwd'
+                  sh 'cat README.md'
+               
                 
              }
        }
