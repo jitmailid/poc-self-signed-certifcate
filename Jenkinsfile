@@ -48,7 +48,7 @@ pipeline {
        }*/
     stage('Creating self signed certificate') {
              steps {
-   
+   /*
                  
                   sh 'echo Creating keystore which contains a private key and a self-signed public key .. '
                   sh "keytool -genkey -keyalg RSA -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass ${params.CERTIFICATE_PASSWORD} -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'"
@@ -70,7 +70,14 @@ pipeline {
                   sh  'pwd'
                   sh 'cat README.md'
                
-                
+               */ 
+               
+               sh '''
+               echo Creating keystore which contains a private key and a self-signed public key 
+               
+               keytool -genkey -keyalg RSA -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass ${params.CERTIFICATE_PASSWORD} -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'
+               
+               '''
              }
        }
            
