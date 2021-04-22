@@ -59,7 +59,7 @@ pipeline {
                   sh "keytool -export -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"               
                
                  sh 'echo import key store '
-                 sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKCS12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
+                 sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKCS12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123 -srcstorepass 123123"
                  sh 'echo extract private key '
                  sh 'openssl pkc12 -in ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -nodes -nocerts -out ${params.CERTIFICATE_COMMON_NAME}-key.pem'
                  sh ' echo Check which certificate is in above Java keystore'
