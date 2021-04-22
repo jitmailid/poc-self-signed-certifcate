@@ -51,12 +51,12 @@ pipeline {
    
                  
                   sh 'echo Creating keystore which contains a private key and a self-signed public key .. '
-                  sh "keytool -genkey -keyalg RSA -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'"
+                  sh "keytool -genkey -keyalg RSA -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -validity 1024 -keysize 2048 -dname 'CN=${params.CERTIFICATE_COMMON_NAME}, O=London, L=London, S=London, C=UK, OU=London'"
                   sh 'echo Generate a certificate signing request CSR for above keystore'
-                  sh "keytool -certreq -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
+                  sh "keytool -certreq -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -file ${params.CERTIFICATE_COMMON_NAME}.csr -storepass 123123"
                   sh 'echo self-signed  X.509 certificate named'
                 //  sh  'pwd'
-                  sh "keytool -export -alias dummy -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"               
+                  sh "keytool -export -alias ${params.CERTIFICATE_COMMON_NAME} -keystore ${params.CERTIFICATE_COMMON_NAME}.jks -storepass 123123 -rfc -file ${params.CERTIFICATE_COMMON_NAME}.cer -ext domains.ext"               
                
                  sh 'echo import key store '
                  sh "keytool -importkeystore -srckeystore ${params.CERTIFICATE_COMMON_NAME}.jks -destkeystore ${params.CERTIFICATE_COMMON_NAME}-keystore.p12 -deststoretype PKCS12 -srcalias ${params.CERTIFICATE_COMMON_NAME} -deststorepass 123123 -destkeypass 123123"
